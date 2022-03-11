@@ -1,0 +1,24 @@
+{
+  "name": "packet-sender",
+  "version": "1.0.0",
+  "description": "Packet Sender for Node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "packet",
+    "sender",
+    "udp",
+    "udp",
+    "sender",
+    "udp",
+    "reviever"
+  ],
+  "author": "Satelitech",
+  "license": "ISC",
+  "dependencies": {
+    "easy-table": "^1.2.0",
+    "prompt": "^1.2.2"
+  }
+}
