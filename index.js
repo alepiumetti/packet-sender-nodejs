@@ -79,13 +79,16 @@ inquirer
 										}
 									},
 									default() {
-										return 1000;
+										return '1000';
 									},
 								},
 							])
 							.then(({ interval }) => {
 								let intervaloTabla = setInterval(async () => {
 									console.clear();
+
+									console.log(messageRevieved);
+
 									// Ask for stop
 
 									tableFunctions.showTable(messageRevieved, port, ip);
