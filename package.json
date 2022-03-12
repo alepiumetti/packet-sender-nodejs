@@ -19,6 +19,6 @@
   "license": "ISC",
   "dependencies": {
     "easy-table": "^1.2.0",
-    "prompt": "^1.2.2"
+    "inquirer": "^8.2.1"
   }
 }
