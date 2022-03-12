@@ -2,25 +2,15 @@
 
 var inquirer = require('inquirer');
 
-// Import schemas for inputs
-
-const schemas = require('./schemas/inputs');
-
 //  Import functions
 
 const udpFunctions = require('./src/udpFunctions.js');
 const tableFunctions = require('./src/tableFunctions.js');
 
-// Global variables
-
-// let ip;
-// let port;
-// let ipToSend;
-// let portToSend;
-
 // Internal Functions
 
 // Init program
+
 console.clear();
 console.log('Bienvenido a Packet Sender para NodeJs. \n');
 
