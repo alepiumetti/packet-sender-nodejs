@@ -5,6 +5,7 @@
     - [Versiones](#versiones)
   - [Comandos](#comandos)
   - [Dependencias](#dependencias)
+  - [Roadmap](#roadmap)
 ## Primeros pasos
 
 [Versiones](#versiones) necesarias para el correcto funcionamiento
@@ -31,3 +32,12 @@ El intervalo de actualizacion esta por defecto en 1000ms.
 
 * [easy-table](https://www.npmjs.com/package/easy-table)
 * [inquirer](https://www.npmjs.com/package/inquirer)
+
+## Roadmap
+
+- [x] Recepcion de paquetes UDP
+  - [ ] Cortar intervalo de muestra de lista y vuelta al menu principal
+- [x] Envio de paquetes UDP
+  - [x] Comando -l para escuchar luego de enviar un paquete
+  - [ ] Comando -c para enviar paquetes continuamente
+- [ ] Crear scripts de ejecucion rapidos
