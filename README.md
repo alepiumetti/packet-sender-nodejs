@@ -1,5 +1,10 @@
 # PACKET SENDER NODE JS
 
+- [PACKET SENDER NODE JS](#packet-sender-node-js)
+  - [Primeros pasos](#primeros-pasos)
+    - [Versiones](#versiones)
+  - [Comandos](#comandos)
+  - [Dependencias](#dependencias)
 ## Primeros pasos
 
 [Versiones](#versiones) necesarias para el correcto funcionamiento
