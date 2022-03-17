@@ -85,7 +85,8 @@ El intervalo de actualizacion esta por defecto en 1000ms.
 ## Roadmap
 
 - [x] Recepcion de paquetes UDP
-  - [ ] Cortar intervalo de muestra de lista y vuelta al menu principal
+  - [ ] eliminar el CTRL + S 
+  - [ ] Que muestre los mensajes cada vez que se reciba
 - [x] Envio de paquetes UDP
   - [x] Comando -l para escuchar luego de enviar un paquete
   - [ ] Comando -c para enviar paquetes continuamente
