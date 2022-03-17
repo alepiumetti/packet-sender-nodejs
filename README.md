@@ -1,6 +1,9 @@
-# PACKET SENDER NODE JS
+# CLI - PACKET SENDER NODE JS
 
-- [PACKET SENDER NODE JS](#packet-sender-node-js)
+CLI para envíar y recibir paquetes UDP. 
+
+
+- [CLI - PACKET SENDER NODE JS](#cli---packet-sender-node-js)
   - [Primeros pasos](#primeros-pasos)
     - [Versiones](#versiones)
   - [Comandos](#comandos)
@@ -11,7 +14,7 @@
 [Versiones](#versiones) necesarias para el correcto funcionamiento
 
 1. Ejecuta `npm install` en la raiz de la carpeta para instalar dependencias.
-2. Ejecuta `node ./index.js` para ejecutar PSN.
+2. Ejecuta `npm run start` para ejecutar PSN.
 ### Versiones 
 
 `node -v` : 12.12.0

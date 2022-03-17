@@ -104,6 +104,7 @@ const sendMessage = (ip, port) => {
 
 const main = () => {
 	console.clear();
+	console.log(process.argv);
 	console.log('Bienvenido a Packet Sender para NodeJs. \n');
 	inquirer
 		.prompt([
@@ -168,7 +169,8 @@ const main = () => {
 											{
 												type: 'input',
 												name: 'interval',
-												message: 'Cuanto intervalo quieres?\nIntervalo:',
+												message:
+													'Cuanto intervalo de actualización quieres?\nEn el caso de querer recibir continuamente ingrese 0 \nIntervalo:',
 												validate(value) {
 													const pass = parseInt(value);
 													if (!isNaN(pass)) {
