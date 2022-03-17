@@ -98,13 +98,10 @@ const sendMessage = (ip, port) => {
 		});
 };
 
-// Init program
-
 // Select option on menu
 
 const main = () => {
-	console.clear();
-	console.log(process.argv);
+	// console.clear();
 	console.log('Bienvenido a Packet Sender para NodeJs. \n');
 	inquirer
 		.prompt([
@@ -442,4 +439,55 @@ const main = () => {
 		});
 };
 
-main();
+// Args functions
+
+const argsFunctions = (args) => {
+	if (args[0] === '-h' || args[0] === '--help') {
+		console.log('Argumentos:');
+		console.log('-h o --help: Muestra esta ayuda');
+		console.log(
+			'-l o --listen [ip] [puerto] : Escucha en la ip y puerto indicado'
+		);
+	} else if (args[0] === '-v' || args[0] === '--version') {
+		console.log('Packet Sender NodeJS v1.0.0');
+	} else if (args[0] === '-l' || args === '--listen') {
+		if (
+			args[1].match(
+				/\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\b/
+			) ||
+			args[2].match(/^[0-9]+$/)
+		) {
+			let ip = args[1].toString();
+			let port = args[2].toString();
+
+			udpFunctions.openServerUdp(ip, port).then(() => {
+				let messageRevieved = [];
+
+				udpFunctions.listenServerUdp(messageRevieved);
+
+				setInterval(() => {
+					console.clear();
+					tableFunctions.showTable(messageRevieved, port, ip);
+				}, 1000);
+			});
+		} else {
+			console.log('Los argumentos ingresados no son correctos');
+		}
+	} else {
+		console.log(
+			'Error en los argumentos. Utilice -h o --help para ver la ayuda.'
+		);
+	}
+};
+
+// Init program
+
+let args = process.argv.slice(2);
+
+console.clear();
+
+if (args.length === 0) {
+	main();
+} else {
+	argsFunctions(args);
+}

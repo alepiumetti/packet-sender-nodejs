@@ -7,6 +7,8 @@ CLI para envíar y recibir paquetes UDP.
   - [Primeros pasos](#primeros-pasos)
     - [Versiones](#versiones)
   - [Comandos](#comandos)
+    - [De ejecución](#de-ejecución)
+    - [Dentro de CLI](#dentro-de-cli)
   - [Dependencias](#dependencias)
   - [Roadmap](#roadmap)
 ## Primeros pasos
@@ -22,6 +24,30 @@ CLI para envíar y recibir paquetes UDP.
 `npm -v` : 6.11.3
 
 ## Comandos 
+
+### De ejecución 
+
+
+**Ejecuta el programa**: 
+
+```bash
+npm start
+```
+
+**Escuchar directamente en una ip y puerto**:
+
+```bash
+npm start -- --l [ip] [puerto] || npm start -- -listen [ip] [puerto]
+```
+**Muestra ayuda**:
+
+```bash
+npm start -- --h || npm start -- -help || npm run help
+```
+
+
+### Dentro de CLI
+
 
 Al ingresar mensajes, para enviar un mensaje y luego escuchar en el puerto `0.0.0.0` ingresar `-l` al final.
 
@@ -43,4 +69,4 @@ El intervalo de actualizacion esta por defecto en 1000ms.
 - [x] Envio de paquetes UDP
   - [x] Comando -l para escuchar luego de enviar un paquete
   - [ ] Comando -c para enviar paquetes continuamente
-- [ ] Crear scripts de ejecucion rapidos
+- [x] Crear scripts de ejecucion rapidos
