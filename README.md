@@ -51,7 +51,13 @@ npm start -- -h || npm start -- --help || npm run help
 npm start -- -v || npm start -- --version
 ```
 
-**Envía mensajes cada determinado tiempo**:
+**Envía un mensaje a un determinado ip y puerto**
+
+```bash
+npm start -- -s [ip] [puerto] [intervalo] [mensaje] || npm start -- --send [ip] [puerto] [intervalo] [mensaje]
+```
+
+**Envía mensajes a un determinado ip y puerto cada determinado tiempo**:
 
 El intervalo es en milisegundos y debe ser mayor o igual a 1000.
 

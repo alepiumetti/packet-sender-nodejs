@@ -448,6 +448,10 @@ const argsFunctions = (args) => {
 		console.log(
 			'-l o --listen [ip] [puerto] : Escucha en la ip y puerto indicado'
 		);
+		console.log('-s o --send [ip] [puerto] [mensaje] : Envia el mensaje');
+		console.log(
+			'-sr o --sendRepeat [ip] [puerto] [mensaje] : Envia un mensaje cada determinado tiempo'
+		);
 	} else if (args[0] === '-v' || args[0] === '--version') {
 		console.log('Packet Sender NodeJS v1.0.0');
 	} else if (args[0] === '-l' || args === '--listen') {
@@ -472,6 +476,22 @@ const argsFunctions = (args) => {
 			});
 		} else {
 			console.log('Los argumentos ingresados no son correctos');
+		}
+	} else if (args[0] === '-s' || args[0] === '--send') {
+		if (
+			args[1].match(
+				/\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\b/
+			) &&
+			args[2].match(/^[0-9]+$/) &&
+			args[3]
+		) {
+			let ip = args[1].toString();
+			let port = args[2].toString();
+			let message = args[3];
+
+			console.clear();
+			console.log(message + ' enviado a ' + ip + ':' + port);
+			udpFunctions.sendMessagesUdp(ip, port, message);
 		}
 	} else if (args[0] === '-sr' || args[0] === '--sendRepeat') {
 		if (
