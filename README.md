@@ -87,6 +87,8 @@ El intervalo de actualizacion esta por defecto en 1000ms.
 - [x] Recepcion de paquetes UDP
   - [ ] eliminar el CTRL + S 
   - [ ] Que muestre los mensajes cada vez que se reciba
+  - [ ] permitir decidir que cantidad de lineas mostrar
+  - [ ] guardar logs localmente en .csv
 - [x] Envio de paquetes UDP
   - [x] Comando -l para escuchar luego de enviar un paquete
   - [ ] Comando -c para enviar paquetes continuamente
