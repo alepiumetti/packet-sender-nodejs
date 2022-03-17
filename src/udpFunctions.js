@@ -1,6 +1,6 @@
 const dgram = require('dgram');
 
-const server = dgram.createSocket('udp4');
+let server;
 
 module.exports.listenServerUdp = (messageRevieved) => {
 	server.on('message', function (message, remote) {
@@ -46,15 +46,22 @@ module.exports.openServerAndSendMessageUdp = (message, ip, port) => {
 	});
 };
 
-module.exports.closeServerUdp = () => {};
-
 module.exports.openServerUdp = (ip, port) => {
+	server = dgram.createSocket('udp4');
+
 	return new Promise((resolve, reject) => {
-		server.on('listening', function () {
+		server.on('listening', function (res) {
 			var address = server.address();
+			resolve();
 		});
 
 		server.bind(port, ip);
-		resolve('Servidor UDP iniciado en el puerto: ' + port);
+	});
+};
+
+module.exports.closeServerUdp = () => {
+	return new Promise((resolve, reject) => {
+		server.close();
+		resolve('Servidor UDP cerrado');
 	});
 };
