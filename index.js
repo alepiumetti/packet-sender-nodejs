@@ -454,7 +454,7 @@ const argsFunctions = (args) => {
 		if (
 			args[1].match(
 				/\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\b/
-			) ||
+			) &&
 			args[2].match(/^[0-9]+$/)
 		) {
 			let ip = args[1].toString();
@@ -470,6 +470,38 @@ const argsFunctions = (args) => {
 					tableFunctions.showTable(messageRevieved, port, ip);
 				}, 1000);
 			});
+		} else {
+			console.log('Los argumentos ingresados no son correctos');
+		}
+	} else if (args[0] === '-sr' || args[0] === '--sendRepeat') {
+		if (
+			args[1].match(
+				/\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\b/
+			) &&
+			args[2].match(/^[0-9]+$/) &&
+			args[3] >= 1000 &&
+			args[4]
+		) {
+			let ip = args[1].toString();
+			let port = args[2].toString();
+			let interval = args[3];
+			let message = args[4];
+
+			setInterval(() => {
+				console.clear();
+				console.log(
+					'Enviando ' +
+						message +
+						' a ' +
+						ip +
+						':' +
+						port +
+						' cada ' +
+						interval +
+						' milisegundos'
+				);
+				udpFunctions.sendMessagesUdp(ip, port, message);
+			}, interval);
 		} else {
 			console.log('Los argumentos ingresados no son correctos');
 		}

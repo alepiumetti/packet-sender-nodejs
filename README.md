@@ -37,12 +37,26 @@ npm start
 **Escuchar directamente en una ip y puerto**:
 
 ```bash
-npm start -- --l [ip] [puerto] || npm start -- -listen [ip] [puerto]
+npm start -- -l [ip] [puerto] || npm start -- --listen [ip] [puerto]
 ```
 **Muestra ayuda**:
 
 ```bash
-npm start -- --h || npm start -- -help || npm run help
+npm start -- -h || npm start -- --help || npm run help
+```
+
+**Muestra la versión**:
+
+```bash 
+npm start -- -v || npm start -- --version
+```
+
+**Envía mensajes cada determinado tiempo**:
+
+El intervalo es en milisegundos y debe ser mayor o igual a 1000.
+
+```bash
+npm start -- -sr [ip] [puerto] [intervalo] [mensaje] || npm start -- --sendRepeat [ip] [puerto] [intervalo] [mensaje]
 ```
 
 
@@ -70,3 +84,8 @@ El intervalo de actualizacion esta por defecto en 1000ms.
   - [x] Comando -l para escuchar luego de enviar un paquete
   - [ ] Comando -c para enviar paquetes continuamente
 - [x] Crear scripts de ejecucion rapidos
+  - [x] -l || --listen para escuchar directo a una ip y puerto
+  - [x] -h || --help para ver la ayuda
+  - [x] -v || --help para ver la  versión
+  - [x] -s || --send para enviar directo a una ip y puerto
+  - [ ] -sr || --sendRepeat para enviar mensajes continuamente

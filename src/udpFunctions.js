@@ -46,6 +46,24 @@ module.exports.openServerAndSendMessageUdp = (message, ip, port) => {
 	});
 };
 
+module.exports.sendMessagesUdp = (ip, port, message) => {
+	var client = dgram.createSocket('udp4');
+	//ENVIA DATA UDP
+	let msg = new Buffer.from(message);
+
+	try {
+		client.send(msg, 0, msg.length, port, ip, function (err, bytes) {
+			if (err) {
+				throw err;
+			}
+			client.close();
+		});
+	} catch (error) {
+		console.log('Error al envíar mensaje UDP');
+		client.close();
+	}
+};
+
 module.exports.openServerUdp = (ip, port) => {
 	server = dgram.createSocket('udp4');
 
