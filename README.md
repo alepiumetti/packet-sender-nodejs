@@ -85,16 +85,16 @@ El intervalo de actualizacion esta por defecto en 1000ms.
 ## Roadmap
 
 - [x] Recepcion de paquetes UDP
-  - [ ] eliminar el CTRL + S 
-  - [ ] Que muestre los mensajes cada vez que se reciba
+  - [x] eliminar el CTRL + S 
+  - [x] Que muestre los mensajes cada vez que se reciba
   - [ ] permitir decidir que cantidad de lineas mostrar
-  - [ ] guardar logs localmente en .csv
+  - [x] guardar logs localmente en .csv
 - [x] Envio de paquetes UDP
   - [x] Comando -l para escuchar luego de enviar un paquete
-  - [ ] Comando -c para enviar paquetes continuamente
+  - [ ] Comando -sr para enviar paquetes continuamente
 - [x] Crear scripts de ejecucion rapidos
   - [x] -l || --listen para escuchar directo a una ip y puerto
   - [x] -h || --help para ver la ayuda
   - [x] -v || --help para ver la  versión
   - [x] -s || --send para enviar directo a una ip y puerto
-  - [ ] -sr || --sendRepeat para enviar mensajes continuamente
+  - [x] -sr || --sendRepeat para enviar mensajes continuamente

@@ -1,6 +1,7 @@
 // Import modules
 
-var inquirer = require('inquirer');
+let inquirer = require('inquirer');
+let fs = require('fs');
 
 // Constants
 
@@ -10,25 +11,6 @@ const udpFunctions = require('./src/udpFunctions.js');
 const tableFunctions = require('./src/tableFunctions.js');
 
 // Internal Functions
-
-const showTable = (messageRevieved, port, ip, interval) => {
-	return new Promise((resolve, reject) => {
-		const intervalShowTable = setInterval(() => {
-			console.clear();
-
-			console.log('Presione ctrl + s para salir');
-
-			tableFunctions.showTable(messageRevieved, port, ip);
-
-			process.openStdin().on('keypress', function (chunk, key) {
-				if (key && key.name === 's' && key.ctrl) {
-					clearInterval(intervalShowTable);
-					resolve();
-				}
-			});
-		}, interval);
-	});
-};
 
 const sendMessage = (ip, port) => {
 	inquirer
@@ -57,11 +39,7 @@ const sendMessage = (ip, port) => {
 							udpFunctions
 								.openServerUdp('0.0.0.0', port)
 								.then(() => {
-									showTable(messageRevieved, port, '0.0.0.0', 1000).then(() => {
-										udpFunctions.closeServerUdp().then(() => {
-											main();
-										});
-									});
+									udpFunctions.listenServerUdp(messageRevieved);
 								})
 								.catch((error) => {
 									console.log(
@@ -152,60 +130,37 @@ const main = () => {
 							},
 						])
 						.then(({ ip, port }) => {
-							udpFunctions
-								.openServerUdp(ip, port)
-								.then((res) => {
-									console.log(res);
-
-									let messageRevieved = []; // Array for messages - Max 20
-
-									udpFunctions.listenServerUdp(messageRevieved);
-
-									inquirer
-										.prompt([
-											{
-												type: 'input',
-												name: 'interval',
-												message:
-													'Cuanto intervalo de actualización quieres?\nEn el caso de querer recibir continuamente ingrese 0 \nIntervalo:',
-												validate(value) {
-													const pass = parseInt(value);
-													if (!isNaN(pass)) {
-														return true;
-													}
-												},
-												default() {
-													return '1000';
-												},
-											},
-										])
-										.then(({ interval }) => {
-											//Show table and wait for stop
-											showTable(messageRevieved, port, ip, interval).then(
-												() => {
-													udpFunctions.closeServerUdp().then(() => {
-														main();
-													});
-												}
-											);
-										})
-										.catch((error) => {
-											if (error.isTtyError) {
-												console.log(
-													'Se ha producido un error en la ejecución del programa: ',
-													error
-												);
-											} else {
-												console.log(
-													'Se ha producido un error en la ejecución del programa: ',
-													error
-												);
+							inquirer
+								.prompt([
+									{
+										type: 'confirm',
+										message: 'Desea guardar el log de recepción en un .CSV?:',
+										name: 'persistir',
+									},
+								])
+								.then(({ persistir }) => {
+									if (persistir) {
+										fs.stat('./data/log.csv', (err, stats) => {
+											if (!stats) {
+												fs.createWriteStream('./data/log.csv');
 											}
 										});
+									}
+
+									udpFunctions
+										.openServerUdp(ip, port)
+										.then((res) => {
+											let messageRevieved = []; // Array for messages - Max 20
+											console.log('Esperando por mensajes');
+											udpFunctions.listenServerUdp(messageRevieved, persistir);
+										})
+										.catch((err) =>
+											console.log('Error al conectar con servidor', err)
+										);
 								})
-								.catch((err) =>
-									console.log('Error al conectar con servidor', err)
-								);
+								.catch((err) => {
+									console.log('Error al elegir opción: ', err);
+								});
 						})
 						.catch((error) => {
 							if (error.isTtyError) {
@@ -220,6 +175,7 @@ const main = () => {
 								);
 							}
 						});
+
 					break;
 				}
 
@@ -265,7 +221,7 @@ const main = () => {
 									if (message !== '') {
 										let splittedMsg = message.split(' ');
 
-										//EL COMANDO -L ENVIA UN MENSAJE Y LUEGO ESCUCHA EN LA MISMA IP Y PUERTO
+										//EL COMANDO -L ENVIA UN MENSAJE Y LUEGO ESCUCHA EN LA IP 0.0.0.0 Y PUERTO
 
 										if (splittedMsg[splittedMsg.length - 1] === '-l') {
 											let msgToSend = message.slice(0, -2);
@@ -279,19 +235,6 @@ const main = () => {
 														.openServerUdp('0.0.0.0', port)
 														.then(() => {
 															udpFunctions.listenServerUdp(messageRevieved);
-
-															let interval = setInterval(async () => {
-																console.clear();
-
-																// Ask for stop
-
-																tableFunctions.showTable(
-																	messageRevieved,
-																	port,
-																	'0.0.0.0'
-																);
-															}, 1000);
-															//Show table and wait for stop
 														});
 												})
 												.catch((err) => {
@@ -343,8 +286,6 @@ const main = () => {
 					console.log('Comandos:');
 					console.log('Generales');
 					console.log(' - Ctrl + C: Salir del programa');
-					console.log('En recepción de mensajes');
-					console.log(' - Ctrl + S: Cortar recepción de mensajes');
 
 					console.log('\n _________________________ \n');
 
@@ -468,11 +409,6 @@ const argsFunctions = (args) => {
 				let messageRevieved = [];
 
 				udpFunctions.listenServerUdp(messageRevieved);
-
-				setInterval(() => {
-					console.clear();
-					tableFunctions.showTable(messageRevieved, port, ip);
-				}, 1000);
 			});
 		} else {
 			console.log('Los argumentos ingresados no son correctos');

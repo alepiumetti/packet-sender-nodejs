@@ -1,8 +1,15 @@
+// Import modules
+
 const dgram = require('dgram');
+const fs = require('fs');
+
+// Import external functions and variables
+
+const tableFunctions = require('./tableFunctions');
 
 let server;
 
-module.exports.listenServerUdp = (messageRevieved) => {
+module.exports.listenServerUdp = (messageRevieved, persistir) => {
 	server.on('message', function (message, remote) {
 		//Limit messages on array
 
@@ -15,6 +22,20 @@ module.exports.listenServerUdp = (messageRevieved) => {
 			port: remote.port,
 		};
 
+		if (persistir) {
+			fs.appendFile(
+				'./data/log.csv',
+				`${data.date},${data.ip},${data.port},${data.message}`,
+				'utf8',
+				(err) => {
+					if (err) {
+						console.log('Error al guardar dato en log', err);
+					} else {
+					}
+				}
+			);
+		}
+
 		if (messageRevieved.length >= limit) {
 			messageRevieved.shift();
 
@@ -22,6 +43,8 @@ module.exports.listenServerUdp = (messageRevieved) => {
 		} else {
 			messageRevieved.push(data);
 		}
+
+		tableFunctions.showTable(messageRevieved, remote.port, remote.address);
 	});
 };
 

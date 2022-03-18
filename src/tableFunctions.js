@@ -11,6 +11,7 @@ module.exports.showTable = (data, port, ip) => {
 
 		table.newRow();
 	});
+	console.clear();
 	console.log('UDP Server escuchando en ' + ip + ':' + port + '\n');
 
 	console.log(table.toString());
