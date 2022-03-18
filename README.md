@@ -91,7 +91,7 @@ El intervalo de actualizacion esta por defecto en 1000ms.
   - [x] guardar logs localmente en .csv
 - [x] Envio de paquetes UDP
   - [x] Comando -l para escuchar luego de enviar un paquete
-  - [ ] Comando -sr para enviar paquetes continuamente
+  - [ ] Envío de paquetes por intervalo
 - [x] Crear scripts de ejecucion rapidos
   - [x] -l || --listen para escuchar directo a una ip y puerto
   - [x] -h || --help para ver la ayuda
