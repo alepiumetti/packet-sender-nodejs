@@ -59,7 +59,7 @@ module.exports.openServerAndSendMessageUdp = (message, ip, port) => {
 				if (err) {
 					throw err;
 				}
-				resolve('Mensaje enviado con exito.');
+				resolve(message + ' enviado con exito a ' + ip + ':' + port);
 				client.close();
 			});
 		} catch (error) {

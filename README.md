@@ -16,7 +16,7 @@ CLI para envíar y recibir paquetes UDP.
 [Versiones](#versiones) necesarias para el correcto funcionamiento
 
 1. Ejecuta `npm install` en la raiz de la carpeta para instalar dependencias.
-2. Ejecuta `npm run start` para ejecutar PSN.
+2. Ejecuta `npm run start` para ejecutar PSN. 
 ### Versiones 
 
 `node -v` : 12.12.0

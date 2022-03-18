@@ -183,100 +183,226 @@ const main = () => {
 					inquirer
 						.prompt([
 							{
-								type: 'input',
-								name: 'ip',
-								message: 'A que ip quieres enviar?\nIP:',
-								validate(value) {
-									const pass = value.match(
-										/\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\b/
-									);
-									if (pass) {
-										return true;
-									}
-								},
-							},
-							{
-								type: 'input',
-								name: 'port',
-								message: 'A que puerto quieres enviar?\nPuerto:',
-								validate(value) {
-									const pass = value.match(/^[0-9]+$/);
-									if (pass) {
-										return true;
-									}
-								},
+								type: 'list',
+								message: 'Selecciona una opción: ',
+								name: 'option',
+								choices: [
+									'Enviar un mensaje',
+									'Enviar mensajes en intervalo de tiempo',
+								],
 							},
 						])
-						.then(({ ip, port }) => {
-							inquirer
-								.prompt([
-									{
-										type: 'input',
-										name: 'message',
-										message: 'Escribe lo que quieres enviar:',
-										required: true,
-									},
-								])
-								.then(({ message }) => {
-									if (message !== '') {
-										let splittedMsg = message.split(' ');
+						.then(({ option }) => {
+							switch (option) {
+								case 'Enviar un mensaje':
+									inquirer
+										.prompt([
+											{
+												type: 'input',
+												name: 'ip',
+												message: 'A que ip quieres enviar?\nIP:',
+												validate(value) {
+													const pass = value.match(
+														/\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\b/
+													);
+													if (pass) {
+														return true;
+													}
+												},
+											},
+											{
+												type: 'input',
+												name: 'port',
+												message: 'A que puerto quieres enviar?\nPuerto:',
+												validate(value) {
+													const pass = value.match(/^[0-9]+$/);
+													if (pass) {
+														return true;
+													}
+												},
+											},
+										])
+										.then(({ ip, port }) => {
+											inquirer
+												.prompt([
+													{
+														type: 'input',
+														name: 'message',
+														message: 'Escribe lo que quieres enviar:',
+														required: true,
+													},
+												])
+												.then(({ message }) => {
+													if (message !== '') {
+														let splittedMsg = message.split(' ');
 
-										//EL COMANDO -L ENVIA UN MENSAJE Y LUEGO ESCUCHA EN LA IP 0.0.0.0 Y PUERTO
+														//EL COMANDO -L ENVIA UN MENSAJE Y LUEGO ESCUCHA EN LA IP 0.0.0.0 Y PUERTO
 
-										if (splittedMsg[splittedMsg.length - 1] === '-l') {
-											let msgToSend = message.slice(0, -2);
+														if (splittedMsg[splittedMsg.length - 1] === '-l') {
+															let msgToSend = message.slice(0, -2);
 
-											udpFunctions
-												.openServerAndSendMessageUdp(msgToSend, ip, port)
-												.then((response) => {
-													let messageRevieved = [];
+															udpFunctions
+																.openServerAndSendMessageUdp(
+																	msgToSend,
+																	ip,
+																	port
+																)
+																.then((response) => {
+																	let messageRevieved = [];
 
-													udpFunctions
-														.openServerUdp('0.0.0.0', port)
-														.then(() => {
-															udpFunctions.listenServerUdp(messageRevieved);
-														});
+																	udpFunctions
+																		.openServerUdp('0.0.0.0', port)
+																		.then(() => {
+																			udpFunctions.listenServerUdp(
+																				messageRevieved
+																			);
+																		});
+																})
+																.catch((err) => {
+																	console.log(err);
+																});
+														}
+
+														udpFunctions
+															.openServerAndSendMessageUdp(message, ip, port)
+															.then((response) => {
+																sendMessage(ip, port);
+															})
+															.catch((err) => {
+																console.log(err);
+															});
+													}
 												})
-												.catch((err) => {
-													console.log(err);
+												.catch((error) => {
+													if (error.isTtyError) {
+														console.log(
+															'Se ha producido un error en la ejecución del programa: ',
+															error
+														);
+													} else {
+														console.log(
+															'Se ha producido un error en la ejecución del programa: ',
+															error
+														);
+													}
 												});
-										}
+										})
+										.catch((error) => {
+											if (error.isTtyError) {
+												console.log(
+													'Se ha producido un error en la ejecución del programa: ',
+													error
+												);
+											} else {
+												console.log(
+													'Se ha producido un error en la ejecución del programa: ',
+													error
+												);
+											}
+										});
 
-										udpFunctions
-											.openServerAndSendMessageUdp(message, ip, port)
-											.then((response) => {
-												sendMessage(ip, port);
-											})
-											.catch((err) => {
-												console.log(err);
-											});
-									}
-								})
-								.catch((error) => {
-									if (error.isTtyError) {
-										console.log(
-											'Se ha producido un error en la ejecución del programa: ',
-											error
-										);
-									} else {
-										console.log(
-											'Se ha producido un error en la ejecución del programa: ',
-											error
-										);
-									}
-								});
-						})
-						.catch((error) => {
-							if (error.isTtyError) {
-								console.log(
-									'Se ha producido un error en la ejecución del programa: ',
-									error
-								);
-							} else {
-								console.log(
-									'Se ha producido un error en la ejecución del programa: ',
-									error
-								);
+									break;
+
+								case 'Enviar mensajes en intervalo de tiempo':
+									inquirer
+										.prompt([
+											{
+												type: 'input',
+												name: 'ip',
+												message: 'A que ip quieres enviar?\nIP:',
+												validate(value) {
+													const pass = value.match(
+														/\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\b/
+													);
+													if (pass) {
+														return true;
+													}
+												},
+											},
+											{
+												type: 'input',
+												name: 'port',
+												message: 'A que puerto quieres enviar?\nPuerto:',
+												validate(value) {
+													const pass = value.match(/^[0-9]+$/);
+													if (pass) {
+														return true;
+													}
+												},
+											},
+										])
+										.then(({ ip, port }) => {
+											inquirer
+												.prompt([
+													{
+														type: 'input',
+														name: 'message',
+														message: 'Escribe lo que quieres enviar:',
+														required: true,
+													},
+												])
+												.then(({ message }) => {
+													if (message !== '') {
+														inquirer
+															.prompt([
+																{
+																	type: 'input',
+																	name: 'interval',
+																	message:
+																		'Escribe el intervalo de tiempo en milisegundos para envíar el mensaje:',
+																},
+															])
+															.then(({ interval }) => {
+																setInterval(() => {
+																	udpFunctions
+																		.openServerAndSendMessageUdp(
+																			message,
+																			ip,
+																			port
+																		)
+																		.then((response) => {
+																			console.log(response);
+																		})
+																		.catch((err) => {
+																			console.log(err);
+																		});
+																}, interval);
+															});
+													} else {
+														console.log('No has escrito nada');
+													}
+												})
+												.catch((error) => {
+													if (error.isTtyError) {
+														console.log(
+															'Se ha producido un error en la ejecución del programa: ',
+															error
+														);
+													} else {
+														console.log(
+															'Se ha producido un error en la ejecución del programa: ',
+															error
+														);
+													}
+												});
+										})
+										.catch((error) => {
+											if (error.isTtyError) {
+												console.log(
+													'Se ha producido un error en la ejecución del programa: ',
+													error
+												);
+											} else {
+												console.log(
+													'Se ha producido un error en la ejecución del programa: ',
+													error
+												);
+											}
+										});
+									break;
+
+								default:
+									break;
 							}
 						});
 
