@@ -1,7 +1,8 @@
 # CLI - PACKET SENDER NODE JS
 
-CLI para envíar y recibir paquetes UDP. 
+## English version soon
 
+CLI para envíar y recibir paquetes UDP. 
 
 - [CLI - PACKET SENDER NODE JS](#cli---packet-sender-node-js)
   - [Primeros pasos](#primeros-pasos)
